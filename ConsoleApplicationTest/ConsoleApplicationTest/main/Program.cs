@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,10 @@ using ConsoleApplicationTest.proxy;
 using ConsoleApplicationTest.prototype;
 using ConsoleApplicationTest.builder;
 using ConsoleApplicationTest.responsibility;
-
+using ConsoleApplicationTest.database;
 using ConsoleApplicationTest.utility;
+using ConsoleApplicationTest.threadpool;
+using ConsoleApplicationTest.xml;
 
 [assembly: InternalsVisibleTo("WindowsFormsApplicationTest")]
 
@@ -46,8 +49,11 @@ namespace ConsoleApplicationTest
             //test_prototype_mode();
             //test_builder_mode();
             //test_responsibility_mode();
-            test_reflection();
+            //test_reflection();
             //test_regex();
+            //test_database();
+            //test_threadpool();
+            test_xml();
         }
         
         static void test_singleton_mode()
@@ -337,6 +343,42 @@ namespace ConsoleApplicationTest
             {
                 Console.WriteLine("false");
             }
+        }
+
+        static void test_database()
+        {
+            try
+            {
+                DataContextBase db = new DataContextBase(@"Data Source=Feiliao.sdf");
+                DataBaseHelper.EnableDatabaseLog(db);
+                DataBaseHelper.InitializeDatabase(db, true);
+                IQueryable<Contact> contactQuery = from contact in db.TableContact select contact;
+                Console.WriteLine("show contact table:");
+                Console.WriteLine("id\tname");
+                foreach (Contact c in contactQuery)
+                {
+                    Console.WriteLine("{0}\t{1}", c.ContactID, c.ContactName);
+                }
+                DataBaseHelper.DisableDatabaseLog(db);
+                db.Dispose();
+                Console.Read();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error while creating the DB: " + ex.Message);
+            }
+        }
+
+        static void test_threadpool()
+        {
+            ThreadPoolExample.test();
+            //ThreadSyncSample.test();
+            //WorkerThreadExample.test();
+        }
+
+        static void test_xml()
+        {
+            XMLsample.test();
         }
     }
 }
