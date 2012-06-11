@@ -14,15 +14,15 @@ namespace ConsoleApplicationTest.xml
         {
             LinqSamples samples = new LinqSamples();
             // Comment or uncomment the method calls below to run or not
-            samples.XLinq6();     // Construct an XElement from string
-            samples.XLinq7();     // Add XML declaration to a document
+            //samples.XLinq6();     // Construct an XElement from string
+            //samples.XLinq7();     // Add XML declaration to a document
             //samples.XLinq8();     // Computed element name
             //samples.XLinq9();     // Create a simple config file
             //samples.XLinq10();    // Create an XmlSchema
             //samples.XLinq11();    // Create an XML document with an XSLT PI
             //samples.XLinq12();    // XML comment construction
             //samples.XLinq13();    // Create a CData section
-            //samples.XLinq14();    // Create a sequence of customer elements
+            samples.XLinq14();    // Create a sequence of customer elements
         }
 
         private class LinqSamples
@@ -54,7 +54,7 @@ namespace ConsoleApplicationTest.xml
             [Description("Computed element name")]
             public void XLinq8()
             {
-                XDocument customers = XDocument.Load("nw_customers.xml");
+                XDocument customers = XDocument.Load(@"../../xml/nw_customers.xml");
                 string name = (string)customers.Elements("Root")
                                                .Elements("Customers")
                                                .First()

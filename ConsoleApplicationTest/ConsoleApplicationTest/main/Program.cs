@@ -25,6 +25,7 @@ using ConsoleApplicationTest.database;
 using ConsoleApplicationTest.utility;
 using ConsoleApplicationTest.threadpool;
 using ConsoleApplicationTest.xml;
+using ConsoleApplicationTest.base64;
 
 [assembly: InternalsVisibleTo("WindowsFormsApplicationTest")]
 
@@ -53,7 +54,8 @@ namespace ConsoleApplicationTest
             //test_regex();
             //test_database();
             //test_threadpool();
-            test_xml();
+            //test_xml();
+            test_base64();
         }
         
         static void test_singleton_mode()
@@ -379,6 +381,12 @@ namespace ConsoleApplicationTest
         static void test_xml()
         {
             XMLsample.test();
+        }
+
+        static void test_base64()
+        {
+            Console.WriteLine("\n---------------- test base64 encode and decode --------------------\n");
+            MyBase64.base64Test();
         }
     }
 }

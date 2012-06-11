@@ -36,7 +36,7 @@ namespace WpfApplicationTest
         {
             set
             {
-                //if (this.MyText != value)
+                if (this.MyText != value)
                 {
                     this.mytext = value;
                     NotifyPropertyChanged("MyText");

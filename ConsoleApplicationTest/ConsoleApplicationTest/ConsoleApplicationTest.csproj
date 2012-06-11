@@ -27,6 +27,12 @@
   <PropertyGroup>
     <ApplicationIcon>images\logo.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RootNamespace>ConsoleApplicationTest</RootNamespace>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -41,6 +47,7 @@
     <Compile Include="adapter\Adaptee.cs" />
     <Compile Include="adapter\Adapter.cs" />
     <Compile Include="adapter\IAdapter.cs" />
+    <Compile Include="base64\MyBase64.cs" />
     <Compile Include="builder\Builder.cs" />
     <Compile Include="builder\Director.cs" />
     <Compile Include="builder\Product.cs" />
