@@ -48,6 +48,7 @@
     <Compile Include="adapter\Adapter.cs" />
     <Compile Include="adapter\IAdapter.cs" />
     <Compile Include="base64\MyBase64.cs" />
+    <Compile Include="binarytree\BinaryTree.cs" />
     <Compile Include="builder\Builder.cs" />
     <Compile Include="builder\Director.cs" />
     <Compile Include="builder\Product.cs" />

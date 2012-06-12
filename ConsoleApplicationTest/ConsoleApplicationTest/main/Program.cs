@@ -26,6 +26,7 @@ using ConsoleApplicationTest.utility;
 using ConsoleApplicationTest.threadpool;
 using ConsoleApplicationTest.xml;
 using ConsoleApplicationTest.base64;
+using ConsoleApplicationTest.binarytree;
 
 [assembly: InternalsVisibleTo("WindowsFormsApplicationTest")]
 
@@ -55,7 +56,8 @@ namespace ConsoleApplicationTest
             //test_database();
             //test_threadpool();
             //test_xml();
-            test_base64();
+            //test_base64();
+            test_binarytree();
         }
         
         static void test_singleton_mode()
@@ -387,6 +389,25 @@ namespace ConsoleApplicationTest
         {
             Console.WriteLine("\n---------------- test base64 encode and decode --------------------\n");
             MyBase64.base64Test();
+        }
+
+        static void test_binarytree()
+        {
+            Console.WriteLine("\n---------------- test binary tree --------------------\n");
+            BinaryTree<int> tree = new BinaryTree<int>(0);
+            //tree.Insert(5);
+            //tree.Insert(11);
+            //tree.Insert(5);
+            //tree.Insert(-12);
+            //tree.Insert(15);
+            //tree.Insert(12);
+            //tree.Insert(14);
+            //tree.Insert(-8);
+            //tree.Insert(10);
+            //tree.Insert(8);
+            //tree.Insert(8);
+            tree.Insert(5, 11, 5, -12, 15, 12, 14, -8, 10, 8, 8);
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Descend);
         }
     }
 }
