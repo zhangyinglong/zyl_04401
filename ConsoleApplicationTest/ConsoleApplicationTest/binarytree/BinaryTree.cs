@@ -5,12 +5,118 @@ using System.Text;
 
 namespace ConsoleApplicationTest.binarytree
 {
-    class BinaryTree<TItem> where TItem : IComparable<TItem>
+    class BinaryTree<TItem> : IEnumerable<TItem> where TItem : IComparable<TItem>
     {
         public enum TraverType { First, Inorder, Postorder, Descend, Ascend = Inorder }
         public TItem NodeData { set; get; }
         public BinaryTree<TItem> LeftTree { set; get; }
         public BinaryTree<TItem> RightTree { set; get; }
+
+        public IEnumerable<TItem> FirstTravEnumertor // 先序遍历的迭代器
+        {
+            get
+            {
+                yield return this.NodeData;
+                if (this.LeftTree != null)
+                {
+                    foreach(TItem item in this.LeftTree.FirstTravEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+                if (this.RightTree != null)
+                {
+                    foreach(TItem item in this.RightTree.FirstTravEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<TItem> InorderEnumertor // 中序遍历的迭代器
+        {
+            get
+            {
+                if (this.LeftTree != null)
+                {
+                    foreach (TItem item in this.LeftTree.InorderEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+                yield return this.NodeData;
+                if (this.RightTree != null)
+                {
+                    foreach (TItem item in this.RightTree.InorderEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<TItem> PostorderTravEnumertor // 后序遍历的迭代器
+        {
+            get
+            {
+                if (this.RightTree != null)
+                {
+                    foreach (TItem item in this.RightTree.PostorderTravEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+                if (this.LeftTree != null)
+                {
+                    foreach (TItem item in this.LeftTree.PostorderTravEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+                yield return this.NodeData;
+            }
+        }
+
+        public IEnumerable<TItem> AscendEnumertor // 升序遍历的迭代器
+        {
+            get
+            {
+                return this.InorderEnumertor;
+            }
+        }
+
+        public IEnumerable<TItem> DescendEnumertor // 降序遍历的迭代器
+        {
+            get
+            {
+                if (this.RightTree != null)
+                {
+                    foreach (TItem item in this.RightTree.DescendEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+                yield return this.NodeData;
+                if (this.LeftTree != null)
+                {
+                    foreach (TItem item in this.LeftTree.DescendEnumertor)
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+
+        IEnumerator<TItem> IEnumerable<TItem>.GetEnumerator() // 泛型迭代
+        {
+            return this.InorderEnumertor.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
 
         public BinaryTree(TItem nodeData)
         {
@@ -101,7 +207,7 @@ namespace ConsoleApplicationTest.binarytree
 
         private void FirstTraversalBinaryTree()
         {
-            Console.Write(this.NodeData.ToString() + ",");
+            Console.Write(this.NodeData.ToString() + ", ");
             if (this.LeftTree != null)
             {
                 this.LeftTree.FirstTraversalBinaryTree();
@@ -112,20 +218,20 @@ namespace ConsoleApplicationTest.binarytree
             }
         }
 
-        private void InorderTraversalBinaryTree()
+        private void InorderTraversalBinaryTree()// 中序遍历 = 升序遍历
         {
             if (this.LeftTree != null)
             {
                 this.LeftTree.InorderTraversalBinaryTree();
             }
-            Console.Write(this.NodeData.ToString() + ",");
+            Console.Write(this.NodeData.ToString() + ", ");
             if (this.RightTree != null)
             {
                 this.RightTree.InorderTraversalBinaryTree();
             }
         }
 
-        private void PostorderTraversalBinaryTree()
+        private void PostorderTraversalBinaryTree()// 后序遍历
         {
             if (this.RightTree != null)
             {
@@ -135,16 +241,16 @@ namespace ConsoleApplicationTest.binarytree
             {
                 this.LeftTree.PostorderTraversalBinaryTree();
             }
-            Console.Write(this.NodeData.ToString() + ",");
+            Console.Write(this.NodeData.ToString() + ", ");
         }
 
-        private void DescendTraversalBinaryTree()
+        private void DescendTraversalBinaryTree()// 降序遍历
         {
             if (this.RightTree != null)
             {
                 this.RightTree.DescendTraversalBinaryTree();
             }
-            Console.Write(this.NodeData.ToString() + ",");
+            Console.Write(this.NodeData.ToString() + ", ");
             if (this.LeftTree != null)
             {
                 this.LeftTree.DescendTraversalBinaryTree();
