@@ -393,67 +393,8 @@ namespace ConsoleApplicationTest
 
         static void test_binarytree()
         {
-            Console.WriteLine("\n---------------- test binary tree --------------------\n");
-            BinaryTree<int> tree = new BinaryTree<int>(0);
-            //tree.Insert(5);
-            //tree.Insert(11);
-            //tree.Insert(5);
-            //tree.Insert(-12);
-            //tree.Insert(15);
-            //tree.Insert(12);
-            //tree.Insert(14);
-            //tree.Insert(-8);
-            //tree.Insert(10);
-            //tree.Insert(8);
-            //tree.Insert(8);
-            tree.Insert(5, 11, 5, -12, 15, 12, 14, -8, 10, 8, 8, 9);
-
-            Console.WriteLine("=========== First traversal ============");
-            tree.WalkBinaryTree(BinaryTree<int>.TraverType.First);
-            Console.WriteLine("");
-            foreach (var i in tree.FirstTravEnumertor)
-            {
-                Console.Write("{0}, ", i);
-            }
-
-            Console.WriteLine("\n\n============ In-order traversal ===========");
-            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Inorder);
-            Console.WriteLine("");
-            foreach (var i in tree.InorderEnumertor)
-            {
-                Console.Write("{0}, ", i);
-            }
-
-            Console.WriteLine("\n\n=========== Postorder traversal ============");
-            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Postorder);
-            Console.WriteLine("");
-            foreach (var i in tree.PostorderTravEnumertor)
-            {
-                Console.Write("{0}, ", i);
-            }
-
-            Console.WriteLine("\n\n============ Ascend traversal ===========");
-            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Ascend);
-            Console.WriteLine("");
-            foreach (var i in tree.AscendEnumertor)
-            {
-                Console.Write("{0}, ", i);
-            }
-
-            Console.WriteLine("\n\n=========== Descend traversal ============");
-            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Descend);
-            Console.WriteLine("");
-            foreach (var i in tree.DescendEnumertor)
-            {
-                Console.Write("{0}, ", i);
-            }
-
-            Console.WriteLine("\n\n=========== Enumertor traversal ============");
-            foreach (var i in tree)
-            {
-                Console.Write("{0}, ", i);
-            }
-            Console.WriteLine("\n\n=========== end ============");
+            //BinaryTreeTest.test_int_binarytree();
+            BinaryTreeTest.test_Linq_employee_binarytree();
         }
     }
 }

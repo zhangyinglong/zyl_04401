@@ -11,7 +11,7 @@ namespace ConsoleApplicationTest.binarytree
         public TItem NodeData { set; get; }
         public BinaryTree<TItem> LeftTree { set; get; }
         public BinaryTree<TItem> RightTree { set; get; }
-
+        public static bool Repeateable { set; get; }
         public IEnumerable<TItem> FirstTravEnumertor // 先序遍历的迭代器
         {
             get
@@ -118,22 +118,58 @@ namespace ConsoleApplicationTest.binarytree
             throw new NotImplementedException();
         }
 
-        public BinaryTree(TItem nodeData)
+        public BinaryTree(TItem nodeData = default(TItem))
         {
             this.NodeData = nodeData;
             this.LeftTree = this.RightTree = null;
         }
 
+        public bool Contain(TItem item)
+        {
+            try
+            {
+                if (this.NodeData.Equals(item))
+                {
+                    return true;
+                }
+                
+                if (this.LeftTree != null)
+                {
+                    return this.LeftTree.Contain(item);
+                }
+
+                if (this.RightTree != null)
+                {
+                    return this.RightTree.Contain(item);
+                }
+                return false;
+            }
+            catch (NullReferenceException ex)
+            {
+                return false;
+            }
+        }
+
         public void Insert(TItem newItem)
         {
-            TItem currentData = this.NodeData;
-            if (currentData.CompareTo(newItem) > 0)
+            if (BinaryTree<TItem>.Repeateable || !this.Contain(newItem))
             {
-                this.InsertLeftTree(newItem);
-            }
-            else
-            {
-                this.InsertRightTree(newItem);
+                try
+                {
+                    TItem currentData = this.NodeData;
+                    if (currentData.CompareTo(newItem) > 0)
+                    {
+                        this.InsertLeftTree(newItem);
+                    }
+                    else
+                    {
+                        this.InsertRightTree(newItem);
+                    }
+                }
+                catch (NullReferenceException ex)
+                {
+                    this.NodeData = newItem;
+                }
             }
         }
 
@@ -254,6 +290,121 @@ namespace ConsoleApplicationTest.binarytree
             if (this.LeftTree != null)
             {
                 this.LeftTree.DescendTraversalBinaryTree();
+            }
+        }
+    }
+
+    class BinaryTreeTest
+    {
+        public static void test_int_binarytree()
+        {
+            Console.WriteLine("\n---------------- test binary tree --------------------\n");
+            BinaryTree<int> tree = new BinaryTree<int>(0);
+            BinaryTree<int>.Repeateable = false;
+            //tree.Insert(5);
+            //tree.Insert(11);
+            //tree.Insert(5);
+            //tree.Insert(-12);
+            //tree.Insert(15);
+            //tree.Insert(12);
+            //tree.Insert(14);
+            //tree.Insert(-8);
+            //tree.Insert(10);
+            //tree.Insert(8);
+            //tree.Insert(8);
+            tree.Insert(5, 11, 5, -12, 15, 12, 14, -8, 10, 8, 8, 9);
+
+            Console.WriteLine("=========== First traversal ============");
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.First);
+            Console.WriteLine("");
+            foreach (var i in tree.FirstTravEnumertor)
+            {
+                Console.Write("{0}, ", i);
+            }
+
+            Console.WriteLine("\n\n============ In-order traversal ===========");
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Inorder);
+            Console.WriteLine("");
+            foreach (var i in tree.InorderEnumertor)
+            {
+                Console.Write("{0}, ", i);
+            }
+
+            Console.WriteLine("\n\n=========== Postorder traversal ============");
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Postorder);
+            Console.WriteLine("");
+            foreach (var i in tree.PostorderTravEnumertor)
+            {
+                Console.Write("{0}, ", i);
+            }
+
+            Console.WriteLine("\n\n============ Ascend traversal ===========");
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Ascend);
+            Console.WriteLine("");
+            foreach (var i in tree.AscendEnumertor)
+            {
+                Console.Write("{0}, ", i);
+            }
+
+            Console.WriteLine("\n\n=========== Descend traversal ============");
+            tree.WalkBinaryTree(BinaryTree<int>.TraverType.Descend);
+            Console.WriteLine("");
+            foreach (var i in tree.DescendEnumertor)
+            {
+                Console.Write("{0}, ", i);
+            }
+
+            Console.WriteLine("\n\n=========== Enumertor traversal ============");
+            foreach (var i in tree)
+            {
+                Console.Write("{0}, ", i);
+            }
+            Console.WriteLine("\n\n=========== end ============");
+        }
+
+        public static void test_Linq_employee_binarytree()
+        {
+            Console.WriteLine("\n---------------- test binary tree --------------------\n");
+            BinaryTree<Employee> tree = new BinaryTree<Employee>();
+            //BinaryTree<Employee>.Repeateable = true;
+            tree.Insert(new Employee { Id = 1, Name = "zhangyinglong", PhoneNumber = 15801553960, Province = "YunNan" }
+                        , new Employee { Id = 2, Name = "hewei", PhoneNumber = 15801553960, Province = "ShenYang" }
+                        , new Employee { Id = 3, Name = "yuguangzhen", PhoneNumber = 15801553960, Province = "ChengDu" }
+                        , new Employee { Id = 4, Name = "zhangxuesong", PhoneNumber = 15801553960, Province = "BeiJing" }
+                        , new Employee { Id = 5, Name = "tanhaibing", PhoneNumber = 15801553960, Province = "HeBei" }
+                        , new Employee { Id = 6, Name = "songpeipei", PhoneNumber = 15801553960, Province = "YunNan" });
+
+            var name = from e in tree
+                       orderby e.Name
+                       where String.Equals(e.Province, "YunNan")
+                       select e.Name;
+            foreach (var e in name)
+            {
+                Console.WriteLine("Name = {0}", e);
+            }
+
+            var group_by_province = from e in tree
+                                    group e by e.Province;
+            foreach (var gprovince in group_by_province)
+            {
+                Console.WriteLine("{0} : {1}", gprovince.Key, gprovince.Count());
+                foreach (var p in gprovince)
+                {
+                    Console.WriteLine("{0}", p);
+                }
+            }
+
+            tree.Insert(new Employee { Id = 4, Name = "zhangyinglong", PhoneNumber = 15801553960, Province = "YunNan" });
+            foreach (var e in name)//name.Distinct())
+            {
+                Console.WriteLine("Name = {0}", e);
+            }
+
+            Employee e1 = new Employee { Id = 1, Name = "zhangyinglong", PhoneNumber = 15801553960, Province = "YunNan" };
+            Employee e2 = new Employee { Id = 2, Name = "zhangyinglong", PhoneNumber = 15801553960, Province = "YunNan" };
+            if (e1 == e2)
+            {
+                ;
             }
         }
     }
